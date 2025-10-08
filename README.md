@@ -43,12 +43,6 @@ Codex focuses on **fantasy books and authors** that I find interesting, includin
 
 ## 🚀 How to Run
 
-This project uses Go, so you can use the Go toolchain to build and run the API without a Makefile. Follow these steps:
-
-1. **Clone the repository and navigate to it:**
-
-## 🚀 How to Run
-
 This project uses Go, so you can use the Go toolchain to build and run the API without a Makefile. Run the following commands sequentially:
 
 ```bash
