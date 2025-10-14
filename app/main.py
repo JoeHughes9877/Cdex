@@ -1,7 +1,11 @@
 from fastapi import FastAPI
+from repository.authors import get_author_by_name
 
 app = FastAPI()
 
 @app.get("/")
 def root():
-    return {"hello": "world"}
+ 
+    data = get_author_by_name("g")
+
+    return {"authors": data}
