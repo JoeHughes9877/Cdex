@@ -1,17 +1,21 @@
 from db.db import open_db
 
-def get_author_by_name(name_input):
+def get_author_by_name(q):
     conn = open_db()
     cur = conn.cursor()
 
-    search_term = f"%{name_input}%"
+    search_term = f"%{q}%"
 
-    rows = cur.execute('SELECT name FROM authors WHERE LOWER(name) LIKE LOWER(?)', (search_term,)).fetchall()
+    rows = cur.execute( 'SELECT id, name, birth_year, nationality FROM authors WHERE LOWER(name) LIKE LOWER(?)', (search_term,)).fetchall()
     conn.close()
 
     authors = []
     for row in rows:
-        authors.append(row[0])
+        authors.append({
+            "id": row[0],
+            "name": row[1],
+            "birth_year": row[2],
+            "nationality": row[3]
+        })
     
     return authors
-
