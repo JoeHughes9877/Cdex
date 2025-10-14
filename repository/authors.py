@@ -18,4 +18,4 @@ def get_author_by_name(q):
             "nationality": row[3]
         })
     
-    return authors
+    return authors 
