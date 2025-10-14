@@ -1,11 +1,13 @@
 PRAGMA foreign_keys = ON;
 
 -- ------------------------
--- Table: Authors
+-- Table: Authors (EXPANDED)
 -- ------------------------
 CREATE TABLE IF NOT EXISTS authors (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    birth_year INTEGER,
+    nationality TEXT
 );
 
 -- ------------------------
@@ -27,12 +29,13 @@ CREATE TABLE IF NOT EXISTS kingdoms (
 );
 
 -- ------------------------
--- Table: Books
+-- Table: Books (EXPANDED)
 -- ------------------------
 CREATE TABLE IF NOT EXISTS books (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     year INTEGER,
+    genre TEXT,
     author_id INTEGER NOT NULL,
     world_id INTEGER NOT NULL,
     FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE CASCADE,
