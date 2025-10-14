@@ -6,16 +6,15 @@ def get_author_by_name(q):
 
     search_term = f"%{q}%"
 
-    rows = cur.execute( 'SELECT id, name, birth_year, nationality FROM authors WHERE LOWER(name) LIKE LOWER(?)', (search_term,)).fetchall()
+    rows = cur.execute( 'SELECT name, birth_year, nationality FROM authors WHERE LOWER(name) LIKE LOWER(?)', (search_term,)).fetchall()
     conn.close()
 
     authors = []
     for row in rows:
         authors.append({
-            "id": row[0],
-            "name": row[1],
-            "birth_year": row[2],
-            "nationality": row[3]
+            "name": row[0],
+            "birth_year": row[1],
+            "nationality": row[2]
         })
     
-    return authors 
+    return authors
