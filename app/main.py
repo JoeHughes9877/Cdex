@@ -1,34 +1,36 @@
-from fastapi import FastAPI,  Query
-from repository import authors, books, characters, worlds, series
+from fastapi import FastAPI, Query, HTTPException
+from models.models import World, Author, Series, Character, Kingdom, Book, BookCharacter, Quote
+from db.db import create_db_and_tables, SessionDep
+from typing import Annotated
+from sqlmodel import select
 
+app = FastAPI(title="Codex - one stop shop for everything fantasy book related.")
 
-from typing import List, Optional 
+@app.on_event("startup")
+def on_startup():
+    create_db_and_tables()
 
-app = FastAPI()
+@app.post("/authors/")
+def create_author(author: Author, session: SessionDep) -> Author:
+    session.add(author)
+    session.commit()
+    session.refresh(author)
+    return author
 
 @app.get("/authors/")
-async def authors( skip: int = 0, limit: int = 10, q: Optional[str] = Query(None)):
-    data = authors.get_author_by_name(q)
-    return {"authors": data}
+def read_author(
+    session: SessionDep,
+    offset: int = 0,
+    limit: Annotated[int, Query(le=20)] = 10,
+) -> list[Author]:
+    authors = session.exec(select(Author).offset(offset).limit(limit)).all()
+    return authors
 
-@app.get("/books/")
-async def books( skip: int = 0, limit: int = 10, q: Optional[str] = Query(None)):
-    data = books.get_book_by_title(q)
-    return {"books": data}
-
-@app.get("/characters/")
-async def characters( skip: int = 0, limit: int = 10, q: Optional[str] = Query(None)):
-    data = characters.get_character_by_name(q)
-    return {"characters": data}
-
-@app.get("/worlds/")
-async def worlds( skip: int = 0, limit: int = 10, q: Optional[str] = Query(None)):
-    data = worlds.get_world_by_name(q)
-    return {"worlds": data}
-
-@app.get("/series/")
-async def worlds( skip: int = 0, limit: int = 10, q: Optional[str] = Query(None)):
-    data = series.get_series_by_name(q)
-    return {"series": data}
-
-
+@app.delete("/authors/{author_id}")
+def delete_author(author_id: int, session: SessionDep):
+    author = session.get(Author, author_id)
+    if not author:
+        raise HTTPException(status_code=404, detail="Author not found")
+    session.delete(author)
+    session.commit()
+    return {"ok": True}
