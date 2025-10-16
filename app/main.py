@@ -1,15 +1,16 @@
-from fastapi import FastAPI, Query, HTTPException
+from fastapi import FastAPI, HTTPException
 from models.models import World, Author, Series, Character, Kingdom, Book, BookCharacter, Quote
-from db.db import create_db_and_tables, SessionDep
-from typing import Annotated
-from sqlmodel import select
+from db.db import SessionDep
+from sqlalchemy import exists
 
-app = FastAPI(title="Codex - one stop shop for everything fantasy book related.")
+def lifespan(_):
+    print("startup")
+    yield
+    print("shutdown")
 
-@app.on_event("startup")
-def on_startup():
-    create_db_and_tables()
+app = FastAPI(lifespan=lifespan)
 
+# CREATE
 @app.post("/authors/")
 def create_author(author: Author, session: SessionDep) -> Author:
     session.add(author)
@@ -17,15 +18,39 @@ def create_author(author: Author, session: SessionDep) -> Author:
     session.refresh(author)
     return author
 
+# READ (list or search)'
 @app.get("/authors/")
-def read_author(
-    session: SessionDep,
-    offset: int = 0,
-    limit: Annotated[int, Query(le=20)] = 10,
-) -> list[Author]:
-    authors = session.exec(select(Author).offset(offset).limit(limit)).all()
-    return authors
+def read_author_list(session: SessionDep, q):
+    if q:
+        return session.query(Author).filter(Author.name.like(f'%{q}%')).all()
+    return session.query(Author).all()
 
+
+# READ (single)
+@app.get("/authors/{id}")
+def read_author_single(session: SessionDep, q):
+    query = session.query(exists().where(Author.id == f"{q}")).scalar()
+
+    if not query:
+        raise HTTPException(status_code=404, detail="Author not found")
+    return session.query(Author).filter(Author.id == q).all()
+
+# UPDATE
+@app.put("/authors/{author_id}")
+async def update_item(author_id: int, name: str, birth_year: str, nationality: str, session: SessionDep):
+    author = session.query(Author).filter(Author.id == author_id).first()
+
+    if not author:
+        raise HTTPException(status_code=404, detail="Author not found")
+
+    author.name = name
+    author.birth_year = birth_year
+    author.nationality = nationality
+    session.commit()
+    session.refresh(author)
+    return author
+
+# DELETE
 @app.delete("/authors/{author_id}")
 def delete_author(author_id: int, session: SessionDep):
     author = session.get(Author, author_id)
