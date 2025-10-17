@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from models.models import World, Author, Series, Character, Kingdom, Book, BookCharacter, Quote
 from db.db import SessionDep
-from sqlalchemy import exists
+from .crud.base import (get_by_id)
 
 def lifespan(_):
     print("startup")
@@ -29,11 +29,11 @@ def read_author_list(session: SessionDep, q):
 # READ (single)
 @app.get("/authors/{id}")
 def read_author_single(session: SessionDep, q):
-    query = session.query(exists().where(Author.id == f"{q}")).scalar()
+    author = get_by_id(session, q, Author)
 
-    if not query:
+    if not author:
         raise HTTPException(status_code=404, detail="Author not found")
-    return session.query(Author).filter(Author.id == q).all()
+    return author
 
 # UPDATE
 @app.put("/authors/{author_id}")
