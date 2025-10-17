@@ -47,9 +47,8 @@ async def update_item(author_id: int, name: str, birth_year: int, nationality: s
 # DELETE
 @app.delete("/authors/{author_id}")
 def delete_author(author_id: int, session: SessionDep):
-    author = get_by_id(session, author_id, Author)
-    if not author:
+    result = remove_table(author_id, Author, session)
+
+    if not result:
         raise HTTPException(status_code=404, detail="Author not found")
-    session.delete(author)
-    session.commit()
     return {"ok": True}
