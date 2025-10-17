@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from models.models import World, Author, Series, Character, Kingdom, Book, BookCharacter, Quote
 from db.db import SessionDep
-from .crud.base import (get_by_id)
+from .crud.base import (get_by_id, get_single_table, get_all, create_table, update_table, remove_table)
 
 def lifespan(_):
     print("startup")
@@ -13,23 +13,17 @@ app = FastAPI(lifespan=lifespan)
 # CREATE
 @app.post("/authors/")
 def create_author(author: Author, session: SessionDep) -> Author:
-    session.add(author)
-    session.commit()
-    session.refresh(author)
-    return author
+    return create_table(session, author)
 
 # READ (list or search)'
 @app.get("/authors/")
 def read_author_list(session: SessionDep, q):
-    if q:
-        return session.query(Author).filter(Author.name.like(f'%{q}%')).all()
-    return session.query(Author).all()
-
+    return get_all(session, q, Author)
 
 # READ (single)
 @app.get("/authors/{id}")
 def read_author_single(session: SessionDep, q):
-    author = get_by_id(session, q, Author)
+    author = get_single_table(session, q, Author)
 
     if not author:
         raise HTTPException(status_code=404, detail="Author not found")
@@ -37,8 +31,8 @@ def read_author_single(session: SessionDep, q):
 
 # UPDATE
 @app.put("/authors/{author_id}")
-async def update_item(author_id: int, name: str, birth_year: str, nationality: str, session: SessionDep):
-    author = session.query(Author).filter(Author.id == author_id).first()
+async def update_item(author_id: int, name: str, birth_year: int, nationality: str, session: SessionDep):
+    author = get_by_id(session, author_id, Author)
 
     if not author:
         raise HTTPException(status_code=404, detail="Author not found")
@@ -53,7 +47,7 @@ async def update_item(author_id: int, name: str, birth_year: str, nationality: s
 # DELETE
 @app.delete("/authors/{author_id}")
 def delete_author(author_id: int, session: SessionDep):
-    author = session.get(Author, author_id)
+    author = get_by_id(session, author_id, Author)
     if not author:
         raise HTTPException(status_code=404, detail="Author not found")
     session.delete(author)
