@@ -1,33 +1,36 @@
-from pydantic.v1 import BaseModel
 from db.db import SessionDep
 from sqlalchemy import exists as sa_exists
 
-
-def get_by_id(session: SessionDep, q, table: BaseModel):
+def get_by_id(session: SessionDep, q: int, table):
     found = session.query(sa_exists().where(table.id == q)).scalar()
     if not found:
         return False
-    return session.query(table).filter(table.id == q).all()
+    return session.query(table).filter(table.id == q).first()
 
-def record_exists():
+def get_single_table(session: SessionDep, q: int, table):
+    found_item = get_by_id(session, q, table)
+
+    if not found_item:
+        return False
+    return found_item
+
+
+def get_all(session: SessionDep, q: str, table):
+    if q:
+        return session.query(table).filter(table.name.like(f'%{q}%')).all()
+    return session.query(table).all()
+
+
+def create_table(session: SessionDep, table):
+    session.add(table)
+    session.commit()
+    session.refresh(table)
+    return table
+
+
+def update_table(session: SessionDep, table):
     return None
 
 
-def get():
-    return None
-
-
-def get_all():
-    return None
-
-
-def create():
-    return None
-
-
-def update():
-    return None
-
-
-def remove():
+def remove_table():
     return None
