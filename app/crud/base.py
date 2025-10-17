@@ -32,5 +32,10 @@ def update_table(session: SessionDep, table):
     return None
 
 
-def remove_table():
-    return None
+def remove_table(table_id: int ,table ,session: SessionDep):
+    result = get_by_id(session, table_id, table)
+    if not result:
+        return False
+    session.delete(result)
+    session.commit()
+    return True
