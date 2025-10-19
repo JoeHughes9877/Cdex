@@ -37,7 +37,6 @@ def remove_table(table_id: int ,table ,session: SessionDep):
     session.commit()
     return True
 
-# Update World
 def update_world(session: Session, world_id: int, name: str | None = None):
     world = session.get(World, world_id)
     if not world:
