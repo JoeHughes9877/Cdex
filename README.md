@@ -1,5 +1,7 @@
 # Codex
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 **A RESTful API for exploring fantasy worlds, books, and characters.**
 
 Codex is a personal learning project designed to help me develop skills in API development, database management, and web deployment—all centered around a topic I’m passionate about: **fantasy books**. The API provides structured data on books, series, authors, characters, worlds, kingdoms, and magical systems, making it easy to fetch and retrieve fantasy lore programmatically.
