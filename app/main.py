@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException
-from models.models import World, Author, Series, Character, Kingdom, Book, BookCharacter, Quote
+from app.models import Author
 from db.db import SessionDep
-from .crud.base import (get_by_id, get_single_table, get_all, create_table, update_table, remove_table)
+from app.crud import (get_single_table, get_all, create_table, update_author, remove_table)
+from typing import Optional
 
 def lifespan(_):
     print("startup")
@@ -15,7 +16,7 @@ app = FastAPI(lifespan=lifespan)
 def create_author(author: Author, session: SessionDep) -> Author:
     return create_table(session, author)
 
-# READ (list or search)'
+# READ (list or search)
 @app.get("/authors/")
 def read_author_list(session: SessionDep, q):
     return get_all(session, q, Author)
@@ -31,18 +32,12 @@ def read_author_single(session: SessionDep, q):
 
 # UPDATE
 @app.put("/authors/{author_id}")
-async def update_item(author_id: int, name: str, birth_year: int, nationality: str, session: SessionDep):
-    author = get_by_id(session, author_id, Author)
+def update_item(session: SessionDep,  author_id: int, name: Optional[str] = None, birth_year: Optional[int] = None, nationality: Optional[str] = None):
+    result = update_author(session, author_id, name, birth_year, nationality)
 
-    if not author:
+    if not result:
         raise HTTPException(status_code=404, detail="Author not found")
-
-    author.name = name
-    author.birth_year = birth_year
-    author.nationality = nationality
-    session.commit()
-    session.refresh(author)
-    return author
+    return result
 
 # DELETE
 @app.delete("/authors/{author_id}")
