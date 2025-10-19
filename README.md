@@ -51,7 +51,7 @@ This schema allows flexible querying of relationships between authors, books, ch
 
 ## How to Run
 
-Codex uses **Python**, **FastAPI**, and **SQLModel**. Follow these steps to run it locally:
+Codex uses **Python**, **FastAPI**, and **SQLModel**. Follow these steps to run it locally (hosting planned):
 
 ```bash
 # Clone the repository
