@@ -15,7 +15,6 @@ Codex is a personal learning project designed to help me develop skills in API d
 - **Server:** Uvicorn (ASGI server for running FastAPI apps)  
 - **Database:** SQLite via **SQLModel / SQLAlchemy ORM**  
 - **Hosting / Deployment:** Personal Debian server (home lab environment)  
-- **Future Frontend:** Web app consuming the API  
 
 ---
 
