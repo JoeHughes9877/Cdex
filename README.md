@@ -28,7 +28,6 @@ Codex is both a learning exercise and a practical tool for retrieving structured
 - Home lab setup (hosting a Debian server, configuring services)  
 - Web app development (consuming APIs, front-end frameworks, user interfaces)  
 - Deployment and DevOps fundamentals (hosting, reverse proxy, security basics)  
-- Optional: testing, documentation, version control, and CI/CD workflows  
 
 ---
 
