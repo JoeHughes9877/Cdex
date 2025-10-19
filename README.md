@@ -8,7 +8,7 @@ Codex is a personal learning project designed to help me develop skills in API d
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Language:** Python 3.11+  
 - **Web Framework:** FastAPI (high-performance modern API framework)  
@@ -19,7 +19,7 @@ Codex is a personal learning project designed to help me develop skills in API d
 
 ---
 
-## 🎯 Project Goals
+## Project Goals
 
 Codex is both a learning exercise and a practical tool for retrieving structured fantasy book data. Through building Codex, I aim to improve skills in:
 
@@ -33,7 +33,7 @@ Codex is both a learning exercise and a practical tool for retrieving structured
 
 ---
 
-## 📚 API Scope / Schema
+## API Scope / Schema
 
 Codex organizes its data around the following core entities:
 
@@ -49,7 +49,7 @@ This schema allows flexible querying of relationships between authors, books, ch
 
 ---
 
-## 🚀 How to Run
+## How to Run
 
 Codex uses **Python**, **FastAPI**, and **SQLModel**. Follow these steps to run it locally:
 
