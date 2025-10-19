@@ -49,7 +49,6 @@ def update_world(session: Session, world_id: int, name: str | None = None):
     session.refresh(world)
     return world
 
-# Update Author
 def update_author(session: Session, author_id: int, name: str | None = None, birth_year: int | None = None, nationality: str | None = None):
     author = session.get(Author, author_id)
     if not author:
@@ -65,7 +64,6 @@ def update_author(session: Session, author_id: int, name: str | None = None, bir
     session.refresh(author)
     return author
 
-# Update Series
 def update_series(session: Session, series_id: int, name: str | None = None, description: str | None = None):
     series = session.get(Series, series_id)
     if not series:
@@ -79,7 +77,6 @@ def update_series(session: Session, series_id: int, name: str | None = None, des
     session.refresh(series)
     return series
 
-# Update Character
 def update_character(session: Session, character_id: int, name: str | None = None, age: int | None = None, gender: str | None = None, description: str | None = None):
     character = session.get(Character, character_id)
     if not character:
@@ -97,7 +94,6 @@ def update_character(session: Session, character_id: int, name: str | None = Non
     session.refresh(character)
     return character
 
-# Update Kingdom
 def update_kingdom(session: Session, kingdom_id: int, name: str | None = None, world_id: int | None = None):
     kingdom = session.get(Kingdom, kingdom_id)
     if not kingdom:
@@ -111,7 +107,6 @@ def update_kingdom(session: Session, kingdom_id: int, name: str | None = None, w
     session.refresh(kingdom)
     return kingdom
 
-# Update Book
 def update_book(session: Session, book_id: int, title: str | None = None, year: int | None = None, genre: str | None = None, author_id: int | None = None, world_id: int | None = None, series_id: int | None = None):
     book = session.get(Book, book_id)
     if not book:
@@ -133,7 +128,6 @@ def update_book(session: Session, book_id: int, title: str | None = None, year: 
     session.refresh(book)
     return book
 
-# Update Quote
 def update_quote(session: Session, quote_id: int, text: str | None = None, character_id: int | None = None, book_id: int | None = None):
     quote = session.get(Quote, quote_id)
     if not quote:
