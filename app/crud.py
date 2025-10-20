@@ -134,7 +134,7 @@ def update_quote(session: Session, quote_id: int, text: str | None = None, chara
     if text is not None:
         quote.text = text
     if character_id is not None:
-        quote.character_id = character_id
+        quote.characters_id = character_id
     if book_id is not None:
         quote.book_id = book_id
     session.add(quote)
