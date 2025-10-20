@@ -51,8 +51,8 @@ class Book(SQLModel, table=True):
 class BookCharacter(SQLModel, table=True):
     __tablename__ = "book_characters"
 
-    book_id: int = Field(foreign_key="book.id", primary_key=True)
-    character_id: int = Field(foreign_key="character.id", primary_key=True)
+    book_id: int = Field(foreign_key="books.id", primary_key=True)
+    character_id: int = Field(foreign_key="characters.id", primary_key=True)
 
 
 class Quote(SQLModel, table=True):
@@ -60,5 +60,5 @@ class Quote(SQLModel, table=True):
 
     id: int | None = Field(default=None, primary_key=True)
     text: str
-    character_id: int = Field(foreign_key="character.id")
-    book_id: int = Field(foreign_key="book.id")
+    character_id: int = Field(foreign_key="characters.id")
+    book_id: int = Field(foreign_key="books.id")
