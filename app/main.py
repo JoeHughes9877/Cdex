@@ -94,25 +94,23 @@ def delete_world(world_id: int, session: SessionDep):
         raise HTTPException(status_code=404, detail="World not found")
     return {"ok": True}
 
-# ... (Continue applying tags to all other endpoints in the same manner)
-
 '''-----Series endpoints-----'''
-@app.post("/series/", tags=["Series"]) # TAG ADDED
+@app.post("/series/", tags=["Series"])
 def create_series(series: Series, session: SessionDep) -> Series:
     return create_table(session, series)
 
-@app.get("/series/", tags=["Series"]) # TAG ADDED
+@app.get("/series/", tags=["Series"])
 def read_series_list(session: SessionDep, q: Optional[str] = None):
     return get_all(session, q, Series)
 
-@app.get("/series/{series_id}", tags=["Series"]) # TAG ADDED
+@app.get("/series/{series_id}", tags=["Series"]) #
 def read_series_single(series_id: int, session: SessionDep):
     series = get_single_table(session, series_id, Series)
     if not series:
         raise HTTPException(status_code=404, detail="Series not found")
     return series
 
-@app.put("/series/{series_id}", tags=["Series"]) # TAG ADDED
+@app.put("/series/{series_id}", tags=["Series"])
 def update_series_item(
     series_id: int,
     session: SessionDep,
@@ -127,22 +125,22 @@ def update_series_item(
 
 
 '''-----Character endpoints-----'''
-@app.post("/characters/", tags=["Characters"]) # TAG ADDED
+@app.post("/characters/", tags=["Characters"])
 def create_character(character: Character, session: SessionDep) -> Character:
     return create_table(session, character)
 
-@app.get("/characters/", tags=["Characters"]) # TAG ADDED
+@app.get("/characters/", tags=["Characters"]) #
 def read_character_list(session: SessionDep, q: Optional[str] = None):
     return get_all(session, q, Character)
 
-@app.get("/characters/{character_id}", tags=["Characters"]) # TAG ADDED
+@app.get("/characters/{character_id}", tags=["Characters"])
 def read_character_single(character_id: int, session: SessionDep):
     character = get_single_table(session, character_id, Character)
     if not character:
         raise HTTPException(status_code=404, detail="Character not found")
     return character
 
-@app.put("/characters/{character_id}", tags=["Characters"]) # TAG ADDED
+@app.put("/characters/{character_id}", tags=["Characters"])
 def update_character_item(
     character_id: int,
     session: SessionDep,
@@ -157,7 +155,7 @@ def update_character_item(
         raise HTTPException(status_code=404, detail="Character not found")
     return result
 
-@app.delete("/characters/{character_id}", tags=["Characters"]) # TAG ADDED
+@app.delete("/characters/{character_id}", tags=["Characters"])
 def delete_character(character_id: int, session: SessionDep):
     result = remove_table(character_id, Character, session)
     if not result:
@@ -166,11 +164,11 @@ def delete_character(character_id: int, session: SessionDep):
 
 
 '''-----Kingdom endpoints-----'''
-@app.post("/kingdoms/", tags=["Kingdoms"]) # TAG ADDED
+@app.post("/kingdoms/", tags=["Kingdoms"])
 def create_kingdom(kingdom: Kingdom, session: SessionDep) -> Kingdom:
     return create_table(session, kingdom)
 
-@app.get("/kingdoms/", tags=["Kingdoms"]) # TAG ADDED
+@app.get("/kingdoms/", tags=["Kingdoms"])
 def read_kingdom_list(session: SessionDep, q: Optional[str] = None):
     return get_all(session, q, Kingdom)
 
@@ -181,7 +179,7 @@ def read_kingdom_single(kingdom_id: int, session: SessionDep):
         raise HTTPException(status_code=404, detail="Kingdom not found")
     return kingdom
 
-@app.put("/kingdoms/{kingdom_id}", tags=["Kingdoms"]) # TAG ADDED
+@app.put("/kingdoms/{kingdom_id}", tags=["Kingdoms"])
 def update_kingdom_item(
     kingdom_id: int,
     session: SessionDep,
@@ -194,7 +192,7 @@ def update_kingdom_item(
         raise HTTPException(status_code=404, detail="Kingdom not found")
     return result
 
-@app.delete("/kingdoms/{kingdom_id}", tags=["Kingdoms"]) # TAG ADDED
+@app.delete("/kingdoms/{kingdom_id}", tags=["Kingdoms"])
 def delete_kingdom(kingdom_id: int, session: SessionDep):
     result = remove_table(kingdom_id, Kingdom, session)
     if not result:
@@ -203,22 +201,22 @@ def delete_kingdom(kingdom_id: int, session: SessionDep):
 
 
 '''-----Book endpoints-----'''
-@app.post("/books/", tags=["Books"]) # TAG ADDED
+@app.post("/books/", tags=["Books"])
 def create_book(book: Book, session: SessionDep) -> Book:
     return create_table(session, book)
 
-@app.get("/books/", tags=["Books"]) # TAG ADDED
+@app.get("/books/", tags=["Books"])
 def read_book_list(session: SessionDep, q: Optional[str] = None):
     return get_all(session, q, Book)
 
-@app.get("/books/{book_id}", tags=["Books"]) # TAG ADDED
+@app.get("/books/{book_id}", tags=["Books"])
 def read_book_single(book_id: int, session: SessionDep):
     book = get_single_table(session, book_id, Book)
     if not book:
         raise HTTPException(status_code=404, detail="Book not found")
     return book
 
-@app.put("/books/{book_id}", tags=["Books"]) # TAG ADDED
+@app.put("/books/{book_id}", tags=["Books"])
 def update_book_item(
     book_id: int,
     session: SessionDep,
@@ -244,7 +242,7 @@ def update_book_item(
         raise HTTPException(status_code=404, detail="Book not found")
     return result
 
-@app.delete("/books/{book_id}", tags=["Books"]) # TAG ADDED
+@app.delete("/books/{book_id}", tags=["Books"])
 def delete_book(book_id: int, session: SessionDep):
     result = remove_table(book_id, Book, session)
     if not result:
@@ -253,22 +251,22 @@ def delete_book(book_id: int, session: SessionDep):
 
 
 '''-----BookCharacter endpoints-----'''
-@app.post("/book_characters/", tags=["Book-Characters (Join)"]) # TAG ADDED
+@app.post("/book_characters/", tags=["Book-Characters (Join)"])
 def create_book_character(book_character: BookCharacter, session: SessionDep) -> BookCharacter:
     return create_table(session, book_character)
 
-@app.get("/book_characters/", tags=["Book-Characters (Join)"]) # TAG ADDED
+@app.get("/book_characters/", tags=["Book-Characters (Join)"])
 def read_book_character_list(session: SessionDep, q: Optional[str] = None):
     return get_all(session, q, BookCharacter)
 
-@app.get("/book_characters/{book_id}/{character_id}", tags=["Book-Characters (Join)"]) # TAG ADDED
+@app.get("/book_characters/{book_id}/{character_id}", tags=["Book-Characters (Join)"])
 def read_book_character_single(book_id: int, character_id: int, session: SessionDep):
     book_character = get_single_table(session, (book_id, character_id), BookCharacter)
     if not book_character:
         raise HTTPException(status_code=404, detail="BookCharacter not found")
     return book_character
 
-@app.delete("/book_characters/{book_id}/{character_id}", tags=["Book-Characters (Join)"]) # TAG ADDED
+@app.delete("/book_characters/{book_id}/{character_id}", tags=["Book-Characters (Join)"])
 def delete_book_character(book_id: int, character_id: int, session: SessionDep):
     result = remove_table((book_id, character_id), BookCharacter, session)
     if not result:
@@ -277,22 +275,22 @@ def delete_book_character(book_id: int, character_id: int, session: SessionDep):
 
 
 '''-----Quote endpoints-----'''
-@app.post("/quotes/", tags=["Quotes"]) # TAG ADDED
+@app.post("/quotes/", tags=["Quotes"])
 def create_quote(quote: Quote, session: SessionDep) -> Quote:
     return create_table(session, quote)
 
-@app.get("/quotes/", tags=["Quotes"]) # TAG ADDED
+@app.get("/quotes/", tags=["Quotes"])
 def read_quote_list(session: SessionDep, q: Optional[str] = None):
     return get_all(session, q, Quote)
 
-@app.get("/quotes/{quote_id}", tags=["Quotes"]) # TAG ADDED
+@app.get("/quotes/{quote_id}", tags=["Quotes"])
 def read_quote_single(quote_id: int, session: SessionDep):
     quote = get_single_table(session, quote_id, Quote)
     if not quote:
         raise HTTPException(status_code=404, detail="Quote not found")
     return quote
 
-@app.put("/quotes/{quote_id}", tags=["Quotes"]) # TAG ADDED
+@app.put("/quotes/{quote_id}", tags=["Quotes"])
 def update_quote_item(
     quote_id: int,
     session: SessionDep,
@@ -306,7 +304,7 @@ def update_quote_item(
         raise HTTPException(status_code=404, detail="Quote not found")
     return result
 
-@app.delete("/quotes/{quote_id}", tags=["Quotes"]) # TAG ADDED
+@app.delete("/quotes/{quote_id}", tags=["Quotes"])
 def delete_quote(quote_id: int, session: SessionDep):
     result = remove_table(quote_id, Quote, session)
     if not result:
