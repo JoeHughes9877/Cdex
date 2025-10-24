@@ -1,11 +1,12 @@
 from fastapi import FastAPI, HTTPException
 from app.models import World, Author, Series, Character, Kingdom, Book, BookCharacter, Quote
-from db.db import SessionDep
+from db.db import SessionDep, create_db_and_tables
 from app.crud import get_single_table, get_all, create_table, update_author, remove_table
 from typing import Optional
 
 def lifespan(_):
     print("startup")
+    create_db_and_tables()
     yield
     print("shutdown")
 
