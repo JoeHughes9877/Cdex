@@ -1,62 +1,71 @@
 # Codex
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 **A RESTful API for exploring fantasy worlds, books, and characters.**
 
-Codex is a personal learning project designed to help me develop skills in API development, database management, and web deployment—all centered around a topic I’m passionate about: **fantasy books**. The API provides structured data on books, series, authors, characters, and magical systems, making it easy to fetch and retrieve fantasy lore programmatically.
+Codex is a personal learning project designed to help me develop skills in API development, database management, and web deployment—all centered around a topic I’m passionate about: **fantasy books**. The API provides structured data on books, series, authors, characters, worlds, kingdoms, and magical systems, making it easy to fetch and retrieve fantasy lore programmatically.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-- **Language:** Go (for efficient, fast code execution)  
-- **Database:** SQLite (lightweight, fast, easy to manage)  
-- **API Type:** RESTful API with JSON responses  
+- **Language:** Python 3.11+  
+- **Web Framework:** FastAPI (high-performance modern API framework)  
+- **Server:** Uvicorn (ASGI server for running FastAPI apps)  
+- **Database:** SQLite via **SQLModel / SQLAlchemy ORM**  
 - **Hosting / Deployment:** Personal Debian server (home lab environment)  
-- **Future Frontend:** Web app consuming the API  
 
 ---
 
-## 🎯 Project Goals
+## Project Goals
 
-This project is primarily a learning exercise, but it also serves a practical use case: retrieving structured fantasy book data. Through building Codex, I aim to learn and improve skills in:
+Codex is both a learning exercise and a practical tool for retrieving structured fantasy book data. Through building Codex, I aim to improve skills in:
 
 - API development (REST principles, routing, JSON serialization)  
-- Database design and management (SQLite, SQL queries)  
-- Go programming (structs, concurrency, performance optimization)  
+- Database design and management (SQLite, SQLModel/SQLAlchemy, SQL queries)  
+- Python programming (async features, type hints, data modeling)  
 - Home lab setup (hosting a Debian server, configuring services)  
 - Web app development (consuming APIs, front-end frameworks, user interfaces)  
 - Deployment and DevOps fundamentals (hosting, reverse proxy, security basics)  
-- Optional: testing, documentation, version control, and CI/CD workflows  
 
 ---
 
-## 📚 API Scope
+## API Scope / Schema
 
-Codex focuses on **fantasy books and authors** that I find interesting, including (but not limited to):
+Codex organizes its data around the following core entities:
 
-- **Authors** – e.g., Brandon Sanderson and other fantasy writers  
-- **Book Series** – metadata, summaries, release dates  
-- **Books** – individual titles, world setting, related characters  
-- **Characters** – name, role, affiliations, abilities  
-- **Magic Systems** – rules, limitations, powers  
-- **Worlds** – geography, cultures, notable events  
+- **Authors** – information about writers (e.g., Brandon Sanderson)  
+- **Book Series** – collections of related books with summaries  
+- **Books** – individual titles with metadata, world settings, and related characters  
+- **Characters** – key figures with roles, affiliations, and abilities  
+- **Worlds** – the fictional settings, including geography and cultures  
+- **Kingdoms** – subdivisions or regions within worlds  
+- **Quotes** – memorable lines attributed to characters  
 
-## 🚀 How to Run
+This schema allows flexible querying of relationships between authors, books, characters, and the worlds they inhabit.
 
-This project uses Go, so you can use the Go toolchain to build and run the API without a Makefile. Run the following commands sequentially:
+---
+
+## How to Run
+
+Codex uses **Python**, **FastAPI**, and **SQLModel**. Follow these steps to run it locally (hosting planned):
 
 ```bash
 # Clone the repository
 git clone https://github.com/yourusername/codex.git
 cd codex
 
-# Run the API directly (for development/testing)
-go run main.go
+# Create a virtual environment (recommended)
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate     # Windows
 
-# Or build a standalone binary and run it
-go build -o codex
-./codex
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the API in development mode
+uvicorn main:app --reload
 
 # The API will now be accessible at:
-# http://localhost:8080
-```
+# http://localhost:8000
