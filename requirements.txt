@@ -1,4 +1,4 @@
 fastapi
 sqlmodel
 sqlalchemy
-uvicorn[standard]
+uvicorn[standard] 
