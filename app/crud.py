@@ -141,3 +141,4 @@ def update_quote(session: Session, quote_id: int, text: str | None = None, chara
     session.commit()
     session.refresh(quote)
     return quote
+ 
