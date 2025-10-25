@@ -62,3 +62,11 @@ class Quote(SQLModel, table=True):
     text: str
     character_id: int = Field(foreign_key="characters.id")
     book_id: int = Field(foreign_key="books.id")
+
+class APIKey(SQLModel, table=True):
+    __tablename__ = "api_keys"
+
+    id: int | None = Field(default=None, primary_key=True)
+    api_key_hash: str = Field(nullable=False, unique=True)  
+    uses: int = Field(default=0)
+    type: str = Field(nullable=False)                     
