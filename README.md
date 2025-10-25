@@ -1,10 +1,10 @@
-# Codex
+# Cdex
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **A RESTful API for exploring fantasy worlds, books, and characters.**
 
-Codex is a personal learning project designed to help me develop skills in API development, database management, and web deployment—all centered around a topic I’m passionate about: **fantasy books**. The API provides structured data on books, series, authors, characters, worlds, kingdoms, and magical systems, making it easy to fetch and retrieve fantasy lore programmatically.
+Cdex is a personal learning project designed to help me develop skills in API development, database management, and web deployment—all centered around a topic I’m passionate about: **fantasy books**. The API provides structured data on books, series, authors, characters, worlds, kingdoms, and magical systems, making it easy to fetch and retrieve fantasy lore programmatically.
 
 ---
 
@@ -20,7 +20,7 @@ Codex is a personal learning project designed to help me develop skills in API d
 
 ## Project Goals
 
-Codex is both a learning exercise and a practical tool for retrieving structured fantasy book data. Through building Codex, I aim to improve skills in:
+Cdex is both a learning exercise and a practical tool for retrieving structured fantasy book data. Through building Cdex, I aim to improve skills in:
 
 - API development (REST principles, routing, JSON serialization)  
 - Database design and management (SQLite, SQLModel/SQLAlchemy, SQL queries)  
@@ -33,7 +33,7 @@ Codex is both a learning exercise and a practical tool for retrieving structured
 
 ## API Scope / Schema
 
-Codex organizes its data around the following core entities:
+Cdex organizes its data around the following core entities:
 
 - **Authors** – information about writers (e.g., Brandon Sanderson)  
 - **Book Series** – collections of related books with summaries  
@@ -49,12 +49,12 @@ This schema allows flexible querying of relationships between authors, books, ch
 
 ## How to Run
 
-Codex uses **Python**, **FastAPI**, and **SQLModel**. Follow these steps to run it locally (hosting planned):
+Cdex uses **Python**, **FastAPI**, and **SQLModel**. Follow these steps to run it locally (hosting planned):
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/codex.git
-cd codex
+git clone https://github.com/yourusername/Cdex.git
+cd Cdex
 
 # Create a virtual environment (recommended)
 python -m venv venv
