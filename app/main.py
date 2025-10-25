@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from app.models import World, Author, Series, Character, Kingdom, Book, BookCharacter, Quote
 from db.db import SessionDep, create_db_and_tables
+from .auth import create_read_only_key
 from app.crud import get_single_table, get_all, create_table, update_author, remove_table
 from typing import Optional
 
@@ -19,6 +20,7 @@ tags_metadata = [
         {"name": "Books", "description": "Manage **books**."},
         {"name": "Book-Characters (Join)", "description": "Linking **books and characters**."},
         {"name": "Quotes", "description": "Manage **quotes** from books."},
+        {"name": "Api-Key", "description": "Generate Api-Key"},
     ]
 
 app = FastAPI(lifespan=lifespan)
@@ -311,3 +313,11 @@ def delete_quote(quote_id: int, session: SessionDep):
     if not result:
         raise HTTPException(status_code=404, detail="Quote not found")
     return {"ok": True}
+
+
+'''-----api-key endpoints-----'''
+@app.get("/api-generation/", tags=["Api-Key"])
+def generate_api_key(session: SessionDep):
+    key = create_read_only_key(session)
+    return {"Api-Key": key}
+ 
