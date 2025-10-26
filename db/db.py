@@ -4,7 +4,7 @@ from fastapi import Depends
 from sqlmodel import Session, SQLModel, create_engine
 
 
-sqlite_file_name = "/home/joe/Documents/code/Cdex/db/books.db"
+sqlite_file_name = "db/books.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
 
 connect_args = {"check_same_thread": False}
