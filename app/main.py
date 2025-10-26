@@ -3,7 +3,7 @@ from fastapi.security.api_key import APIKey
 from app.models import World, Author, Series, Character, Kingdom, Book, BookCharacter, Quote
 from db.db import SessionDep, create_db_and_tables
 from .auth import create_read_only_key, read_auth, write_auth, admin_auth
-from app.crud import get_single_table, get_all, create_table, update_author, remove_table
+from app.crud import get_single_table, search_name, search_title, search_text ,create_table, update_author, remove_table
 from typing import Optional
 
 def lifespan(_):
@@ -19,7 +19,6 @@ tags_metadata = [
         {"name": "Characters", "description": "Operations with fictional **characters**."},
         {"name": "Kingdoms", "description": "Manage **kingdoms** within worlds."},
         {"name": "Books", "description": "Manage **books**."},
-        {"name": "Book-Characters (Join)", "description": "Linking **books and characters**."},
         {"name": "Quotes", "description": "Manage **quotes** from books."},
         {"name": "Api-Key", "description": "Generate Api-Key"},
     ]
@@ -33,7 +32,7 @@ def create_author(author: Author, session: SessionDep, api_key: APIKey = Depends
 
 @app.get("/authors/", tags=["Authors"])
 def read_author_list(session: SessionDep, q: Optional[str] = None, api_key: APIKey = Depends(read_auth)):
-    return get_all(session, q, Author)
+    return search_name(session, q, Author)
 
 @app.get("/authors/{author_id}", tags=["Authors"])
 def read_author_single(author_id: int, session: SessionDep, api_key: APIKey = Depends(read_auth)):
@@ -71,7 +70,7 @@ def create_world(world: World, session: SessionDep, api_key: APIKey = Depends(wr
 
 @app.get("/worlds/", tags=["Worlds"])
 def read_world_list(session: SessionDep, q: Optional[str] = None, api_key: APIKey = Depends(read_auth)):
-    return get_all(session, q, World)
+    return search_name(session, q, World)
 
 @app.get("/worlds/{world_id}", tags=["Worlds"])
 def read_world_single(world_id: int, session: SessionDep, api_key: APIKey = Depends(read_auth)):
@@ -107,7 +106,7 @@ def create_series(series: Series, session: SessionDep, api_key: APIKey = Depends
 
 @app.get("/series/", tags=["Series"])
 def read_series_list(session: SessionDep, q: Optional[str] = None, api_key: APIKey = Depends(read_auth)):
-    return get_all(session, q, Series)
+    return search_name(session, q, Series)
 
 @app.get("/series/{series_id}", tags=["Series"]) #
 def read_series_single(series_id: int, session: SessionDep, api_key: APIKey = Depends(read_auth)):
@@ -138,7 +137,7 @@ def create_character(character: Character, session: SessionDep, api_key: APIKey 
 
 @app.get("/characters/", tags=["Characters"]) #
 def read_character_list(session: SessionDep, q: Optional[str] = None, api_key: APIKey = Depends(read_auth)):
-    return get_all(session, q, Character)
+    return search_name(session, q, Character)
 
 @app.get("/characters/{character_id}", tags=["Characters"])
 def read_character_single(character_id: int, session: SessionDep, api_key: APIKey = Depends(read_auth)):
@@ -178,7 +177,7 @@ def create_kingdom(kingdom: Kingdom, session: SessionDep, api_key: APIKey = Depe
 
 @app.get("/kingdoms/", tags=["Kingdoms"])
 def read_kingdom_list(session: SessionDep, q: Optional[str] = None, api_key: APIKey = Depends(read_auth)):
-    return get_all(session, q, Kingdom)
+    return search_name(session, q, Kingdom)
 
 @app.get("/kingdoms/{kingdom_id}", tags=["Kingdoms"]) # TAG ADDED
 def read_kingdom_single(kingdom_id: int, session: SessionDep, api_key: APIKey = Depends(read_auth)):
@@ -216,7 +215,7 @@ def create_book(book: Book, session: SessionDep, api_key: APIKey = Depends(write
 
 @app.get("/books/", tags=["Books"])
 def read_book_list(session: SessionDep, q: Optional[str] = None, api_key: APIKey = Depends(read_auth)):
-    return get_all(session, q, Book)
+    return search_title(session, q, Book)
 
 @app.get("/books/{book_id}", tags=["Books"])
 def read_book_single(book_id: int, session: SessionDep, api_key: APIKey = Depends(read_auth)):
@@ -259,31 +258,6 @@ def delete_book(book_id: int, session: SessionDep, api_key: APIKey = Depends(wri
         raise HTTPException(status_code=404, detail="Book not found")
     return {"ok": True}
 
-
-'''-----BookCharacter endpoints-----'''
-@app.post("/book_characters/", tags=["Book-Characters (Join)"])
-def create_book_character(book_character: BookCharacter, session: SessionDep, api_key: APIKey = Depends(write_auth)) -> BookCharacter:
-    return create_table(session, book_character)
-
-@app.get("/book_characters/", tags=["Book-Characters (Join)"])
-def read_book_character_list(session: SessionDep, q: Optional[str] = None, api_key: APIKey = Depends(read_auth)):
-    return get_all(session, q, BookCharacter)
-
-@app.get("/book_characters/{book_id}/{character_id}", tags=["Book-Characters (Join)"])
-def read_book_character_single(book_id: int, character_id: int, session: SessionDep, api_key: APIKey = Depends(read_auth)):
-    book_character = get_single_table(session, (book_id, character_id), BookCharacter)
-    if not book_character:
-        raise HTTPException(status_code=404, detail="BookCharacter not found")
-    return book_character
-
-@app.delete("/book_characters/{book_id}/{character_id}", tags=["Book-Characters (Join)"])
-def delete_book_character(book_id: int, character_id: int, session: SessionDep, api_key: APIKey = Depends(write_auth)):
-    result = remove_table((book_id, character_id), BookCharacter, session)
-    if not result:
-        raise HTTPException(status_code=404, detail="BookCharacter not found")
-    return {"ok": True}
-
-
 '''-----Quote endpoints-----'''
 @app.post("/quotes/", tags=["Quotes"])
 def create_quote(quote: Quote, session: SessionDep, api_key: APIKey = Depends(write_auth)) -> Quote:
@@ -291,7 +265,7 @@ def create_quote(quote: Quote, session: SessionDep, api_key: APIKey = Depends(wr
 
 @app.get("/quotes/", tags=["Quotes"])
 def read_quote_list(session: SessionDep, q: Optional[str] = None, api_key: APIKey = Depends(read_auth)):
-    return get_all(session, q, Quote)
+    return search_text(session, q, Quote)
 
 @app.get("/quotes/{quote_id}", tags=["Quotes"])
 def read_quote_single(quote_id: int, session: SessionDep, api_key: APIKey = Depends(read_auth)):
