@@ -4,7 +4,7 @@ import hashlib
 from fastapi import Depends, HTTPException, status
 from sqlmodel import Session, select
 from app.models import APIKey
-from db.db import SessionDep  
+from db.db import get_session
 
 def create_read_only_key(session: Session):
     key = secrets.token_urlsafe(16)
@@ -18,20 +18,50 @@ def create_read_only_key(session: Session):
 
     session.add(api_key_instance)
     session.commit()
-    session.refresh(api_key_instance)
+    session.refresh(api_key_instance) 
     return key
 
 
-def api_key_auth(key: str, session: Session = Depends(SessionDep)):
-    hashed_key = hashlib.sha256(key.encode()).hexdigest()
+def read_auth(key):
+    key = get_key(key)
 
-    stmt = select(APIKey).where(APIKey.api_key_hash == hashed_key)
-    found = session.exec(stmt).first()
-
-    if not found:
+    if not key or key.type not in ["read", "write" ,"admin"]:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid API key",
         )
-
     return True
+        
+def write_auth(key):
+    key = get_key(key)
+
+    if not key or key.type not in ["write" ,"admin"]:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid API key",
+        )
+    return True
+
+def admin_auth(key):
+    key = get_key(key)
+
+    if not key or key.type not in ["admin"]:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid API key",
+        )
+    return True
+
+def get_key(key):
+    hashed_key = hashlib.sha256(key.encode()).hexdigest()
+
+    '''get_session() yields a session via dependency injection.
+    directly calling returns a generator, so we use next() to get the actual Session object. '''
+    session = next(get_session())
+
+    stmt = select(APIKey).where(APIKey.api_key_hash == hashed_key)
+    key_data = session.exec(stmt).first()
+
+    if not key_data:
+        return False
+    return key_data
