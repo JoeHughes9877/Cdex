@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security.api_key import APIKey
 from app.models import World, Author, Series, Character, Kingdom, Book, BookCharacter, Quote
 from db.db import SessionDep, create_db_and_tables
-from .auth import create_read_only_key, read_auth, write_auth, admin_auth # Ensure these are available
+from .auth import create_read_only_key, read_auth, write_auth, admin_auth
 from app.crud import get_single_table, get_all, create_table, update_author, remove_table
 from typing import Optional
 
