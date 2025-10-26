@@ -125,7 +125,7 @@ def update_book(session: Session, book_id: int, title: str | None = None, year: 
     session.add(book)
     session.commit()
     session.refresh(book)
-    return book
+    return book 
 
 def update_quote(session: Session, quote_id: int, text: str | None = None, character_id: int | None = None, book_id: int | None = None):
     quote = session.get(Quote, quote_id)
