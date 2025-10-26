@@ -1,7 +1,8 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
+from fastapi.security.api_key import APIKey
 from app.models import World, Author, Series, Character, Kingdom, Book, BookCharacter, Quote
 from db.db import SessionDep, create_db_and_tables
-from .auth import create_read_only_key
+from .auth import create_read_only_key, api_key_auth
 from app.crud import get_single_table, get_all, create_table, update_author, remove_table
 from typing import Optional
 
@@ -31,7 +32,7 @@ def create_author(author: Author, session: SessionDep) -> Author:
     return create_table(session, author)
 
 @app.get("/authors/", tags=["Authors"])
-def read_author_list(session: SessionDep, q: Optional[str] = None):
+def read_author_list(session: SessionDep, api_key: APIKey = Depends(api_key_auth), q: Optional[str] = None):
     return get_all(session, q, Author)
 
 @app.get("/authors/{author_id}", tags=["Authors"])
