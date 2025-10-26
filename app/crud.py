@@ -1,10 +1,10 @@
 from db.db import SessionDep
-from sqlalchemy import exists as sa_exists
+from sqlalchemy import exists, select
 from app.models import World, Author, Series, Character, Kingdom, Book, BookCharacter, Quote
 from sqlalchemy.orm import Session
 
 def get_by_id(session: SessionDep, q: int, table):
-    found = session.query(sa_exists().where(table.id == q)).scalar()
+    found = session.query(exists().where(table.id == q)).scalar()
     if not found:
         return False
     return session.query(table).filter(table.id == q).first()
@@ -141,4 +141,3 @@ def update_quote(session: Session, quote_id: int, text: str | None = None, chara
     session.commit()
     session.refresh(quote)
     return quote
- 
