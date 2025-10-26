@@ -1,6 +1,8 @@
 from sqlmodel import Field, SQLModel
 
 class World(SQLModel, table=True):
+    __tablename__ = "worlds"
+
     id: int | None = Field(default=None, primary_key=True)
     name: str = Field(index=True)
 
