@@ -1,10 +1,10 @@
 from typing import Annotated
+
 from fastapi import Depends
 from sqlmodel import Session, SQLModel, create_engine
-import os
 
 
-sqlite_file_name = os.getenv("DATABASE_FILE", "db/books.db")
+sqlite_file_name = "/home/joe/Documents/code/Cdex/db/books.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
 
 connect_args = {"check_same_thread": False}
