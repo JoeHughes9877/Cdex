@@ -17,10 +17,21 @@ def get_single_table(session: SessionDep, q: int, table):
     return found_item
 
 
-def get_all(session: SessionDep, q: str, table):
+def search_name(session: SessionDep, q: str, table):
     if q:
         return session.query(table).filter(table.name.like(f'%{q}%')).all()
     return session.query(table).all()
+
+def search_title(session: SessionDep, q: str, table):
+    if q:
+        return session.query(table).filter(table.title.like(f'%{q}%')).all()
+    return session.query(table).all()
+
+def search_text(session: SessionDep, q: str, table):
+    if q:
+        return session.query(table).filter(table.text.like(f'%{q}%')).all()
+    return session.query(table).all()
+
 
 
 def create_table(session: SessionDep, table):
