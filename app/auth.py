@@ -1,11 +1,13 @@
-# app/auth.py
 import secrets
 import hashlib
 from fastapi import Depends, HTTPException, status
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials 
 from sqlmodel import Session, select
 from app.models import APIKey
 from db.db import get_session
 
+security_scheme = HTTPBearer(scheme_name="API Key Auth")
+ 
 def create_read_only_key(session: Session):
     key = secrets.token_urlsafe(16)
     hashed_key = hashlib.sha256(key.encode()).hexdigest()
@@ -22,8 +24,8 @@ def create_read_only_key(session: Session):
     return key
 
 
-def read_auth(key):
-    key = get_key(key)
+def read_auth(auth_header: HTTPAuthorizationCredentials = Depends(security_scheme)):
+    key = get_key(auth_header.credentials)
 
     if not key or key.type not in ["read", "write" ,"admin"]:
         raise HTTPException(
@@ -32,8 +34,8 @@ def read_auth(key):
         )
     return True
         
-def write_auth(key):
-    key = get_key(key)
+def write_auth(auth_header: HTTPAuthorizationCredentials = Depends(security_scheme)):
+    key = get_key(auth_header.credentials)
 
     if not key or key.type not in ["write" ,"admin"]:
         raise HTTPException(
@@ -42,8 +44,8 @@ def write_auth(key):
         )
     return True
 
-def admin_auth(key):
-    key = get_key(key)
+def admin_auth(auth_header: HTTPAuthorizationCredentials = Depends(security_scheme)):
+    key = get_key(auth_header.credentials)
 
     if not key or key.type not in ["admin"]:
         raise HTTPException(
