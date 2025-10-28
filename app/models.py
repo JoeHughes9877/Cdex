@@ -35,7 +35,7 @@ class Kingdom(SQLModel, table=True):
 
     id: int | None = Field(default=None, primary_key=True)
     name: str
-    world_id: int = Field(foreign_key="world.id")
+    world_id: int = Field(foreign_key="worlds.id")
 
 
 class Book(SQLModel, table=True):
@@ -45,8 +45,8 @@ class Book(SQLModel, table=True):
     title: str
     year: int | None = None
     genre: str | None = None
-    author_id: int = Field(foreign_key="author.id")
-    world_id: int = Field(foreign_key="world.id")
+    author_id: int = Field(foreign_key="authors.id")
+    world_id: int = Field(foreign_key="worlds.id")
     series_id: int | None = Field(default=None, foreign_key="series.id")
 
 
@@ -71,4 +71,4 @@ class APIKey(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     api_key_hash: str = Field(nullable=False, unique=True)  
     uses: int = Field(default=0)
-    type: str = Field(nullable=False)                     
+    type: str = Field(nullable=False)                      
