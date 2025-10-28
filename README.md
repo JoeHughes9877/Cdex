@@ -39,9 +39,6 @@ Codex uses **Python**, **FastAPI**, and **SQLModel**. Follow these steps to run 
 
 # 🚀 Codex Setup Guide
 
-Follow these steps to set up and run the Codex API locally.
-# 🚀 Codex Setup Guide
-
 Follow these steps to set up and run the Codex API locally or access it from the cloud.
 
 ```bash
