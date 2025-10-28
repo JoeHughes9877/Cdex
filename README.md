@@ -4,7 +4,7 @@
 
 **A RESTful API for exploring fantasy worlds, books, and characters.**
 
-Accessable at this link: https://cdex-3hxs.onrender.com/docs 
+Accessable at this link: https://cdex.joe-hughes.dev/
 
 Codex is a personal learning project designed to help me develop skills in API development, database management, and web deployment—all centered around a topic I’m passionate about: **fantasy books**. The API provides structured data on books, series, authors, characters, worlds, kingdoms, and magical systems, making it easy to fetch and retrieve fantasy lore programmatically.
 
@@ -66,4 +66,4 @@ uvicorn main:app --reload
 
 # 5. Access the API
 # Locally: http://localhost:8000
-# Cloud:   https://cdex-3hxs.onrender.com/
+# Cloud:   https://cdex.joe-hughes.dev/
