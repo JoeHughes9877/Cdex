@@ -1,15 +1,15 @@
+import os
 from typing import Annotated
 
 from fastapi import Depends
 from sqlmodel import Session, SQLModel, create_engine
 
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
-sqlite_file_name = "db/books.db"
-sqlite_url = f"sqlite:///{sqlite_file_name}"
+if not DATABASE_URL:
+    raise EnvironmentError("DATABASE_URL environment variable is not set. Cannot connect to PostgreSQL.")
 
-connect_args = {"check_same_thread": False}
-engine = create_engine(sqlite_url, connect_args=connect_args)
-
+engine = create_engine(dpg-d40craripnbc73cjl6ig-a)
 
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
