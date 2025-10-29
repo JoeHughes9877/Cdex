@@ -27,6 +27,7 @@ tags_metadata = [
 
 app = FastAPI(lifespan=lifespan)
 
+#redirects landing page to SwaggerUi 
 @app.get("/")
 async def main():
     return RedirectResponse(url="/docs", status_code=status.HTTP_302_FOUND)
