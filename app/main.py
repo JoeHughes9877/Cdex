@@ -5,6 +5,8 @@ from db.db import SessionDep, create_db_and_tables
 from .auth import create_read_only_key, read_auth, write_auth, admin_auth
 from app.crud import get_single_table, search_name, search_title, search_text ,create_table, update_author, remove_table
 from typing import Optional
+from fastapi.responses import RedirectResponse
+import starlette.status as status
 
 def lifespan(_):
     print("startup")
@@ -24,6 +26,11 @@ tags_metadata = [
     ]
 
 app = FastAPI(lifespan=lifespan)
+
+@app.get("/")
+async def main():
+    return RedirectResponse(url="/docs", status_code=status.HTTP_302_FOUND)
+
 
 '''-----Author endpoints-----'''
 @app.post("/authors/", tags=["Authors"])
