@@ -7,6 +7,7 @@ from app.crud import get_single_table, search_name, search_title, search_text ,c
 from typing import Optional
 from fastapi.responses import RedirectResponse
 import starlette.status as status
+from fastapi.middleware.cors import CORSMiddleware
 
 def lifespan(_):
     print("startup")
@@ -25,7 +26,21 @@ tags_metadata = [
         {"name": "Api-Key", "description": "Generate Api-Key"},
     ]
 
+origins = [
+    "https://cdex-pages-ok6k.vercel.app",
+    "http://localhost:5173",
+    "https://pages.joe-hughes.dev"
+]
+
 app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,             
+    allow_credentials=True,             
+    allow_methods=["*"],                
+    allow_headers=["*"],                
+)
 
 #redirects landing page to SwaggerUi 
 @app.get("/")
