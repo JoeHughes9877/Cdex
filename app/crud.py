@@ -2,6 +2,7 @@ from db.db import SessionDep
 from sqlalchemy import exists, select
 from app.models import World, Author, Series, Character, Kingdom, Book, BookCharacter, Quote
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 
 def get_by_id(session: SessionDep, q: int, table):
     found = session.query(exists().where(table.id == q)).scalar()
@@ -19,17 +20,17 @@ def get_single_table(session: SessionDep, q: int, table):
 
 def search_name(session: SessionDep, q: str, table):
     if q:
-        return session.query(table).filter(table.name.like(f'%{q}%')).all()
+        return session.query(table).filter(func.lower(table.name).like(f'%{q.lower()}%')).all()
     return session.query(table).all()
 
 def search_title(session: SessionDep, q: str, table):
     if q:
-        return session.query(table).filter(table.title.like(f'%{q}%')).all()
+        return session.query(table).filter(func.lower(table.title).like(f'%{q.lower()}%')).all()
     return session.query(table).all()
 
 def search_text(session: SessionDep, q: str, table):
     if q:
-        return session.query(table).filter(table.text.like(f'%{q}%')).all()
+        return session.query(table).filter(func.lower(table.text).like(f'%{q.lower}%')).all()
     return session.query(table).all()
 
 
